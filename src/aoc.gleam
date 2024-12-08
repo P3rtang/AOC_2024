@@ -1,5 +1,6 @@
-// import day01/solution as day01
+import day01/solution as day01
 import day02/solution as day02
+import day03/solution as day03
 import error
 import gleam/dict
 import gleam/int
@@ -10,7 +11,10 @@ import tempo/duration
 
 const ansi_escape = "\u{001b}"
 
-const solutions = [#(1, #(2_285_373, 21_142_653)), #(2, #(407, -1))]
+const solutions = [
+  #(1, #(2_285_373, 21_142_653)), #(2, #(407, 459)),
+  #(3, #(188_192_787, 113_965_544)),
+]
 
 pub fn check_solution(
   day: Int,
@@ -68,10 +72,11 @@ pub fn print_solution(
     #(Ok(#(sol_1, sol_2)), dur) -> {
       case check_solution(day, #(sol_1, sol_2)) {
         option.Some(check) -> {
-          io.print("Solution 1: " <> int.to_string(sol_1))
+          { " Solution 1: " <> int.to_string(sol_1) }
+          |> string.pad_end(24, " ")
+          |> io.print
           io.println(
-            "\t"
-            <> ansi_escape
+            ansi_escape
             <> "["
             <> color(check.0)
             <> "m"
@@ -79,10 +84,11 @@ pub fn print_solution(
             <> ansi_escape
             <> "[0m",
           )
-          io.print("Solution 2: " <> int.to_string(sol_2))
+          { " Solution 2: " <> int.to_string(sol_2) }
+          |> string.pad_end(24, " ")
+          |> io.print
           io.println(
-            "\t"
-            <> ansi_escape
+            ansi_escape
             <> "["
             <> color(check.1)
             <> "m"
@@ -105,6 +111,7 @@ pub fn print_solution(
 }
 
 pub fn main() {
-  // print_solution(1, day01.solutions)
+  print_solution(1, day01.solutions)
   print_solution(2, day02.solutions)
+  print_solution(3, day03.solutions)
 }

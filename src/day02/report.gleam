@@ -1,24 +1,23 @@
-import day02/list as l
 import gleam/bool
 import gleam/int
-import gleam/io
 import gleam/list
 import gleam/option
+import list as l
 
 pub type Report {
   Level(val: List(Int))
 }
 
-pub fn is_report_safe(report: Report) -> Bool {
+pub fn is_report_safe(report: Report, has_dampener) -> Bool {
   let Level(value) = report
   let is_increasing = value |> l.is_increasing
 
   let is_safe = fn(value) {
     use chunk, index <- list.map2(
-      chunk(value, [], is_increasing).1,
-      list.range(0, value |> list.length),
+      { value |> chunk([]) }.1,
+      list.range(value |> list.length |> int.subtract(1), 0),
     )
-    #(is_chunk_safe(chunk), index)
+    #(chunk |> is_chunk_safe(is_increasing), index)
   }
 
   let all_safe = fn(value) {
@@ -32,41 +31,33 @@ pub fn is_report_safe(report: Report) -> Bool {
 
   case all_safe(value) {
     option.None -> True
-    option.Some(idx) -> {
+    option.Some(idx) if has_dampener -> {
       value
-      |> io.debug
-      |> l.without(idx)
-      |> io.debug
-      |> fn(val) { all_safe(val) |> option.is_none }
+      |> l.without(int.min(idx - 1, 0))
+      |> all_safe
+      |> option.is_none
       || value
-      |> l.without(idx + 1)
-      |> fn(val) { all_safe(val) |> option.is_none }
+      |> l.without(idx)
+      |> all_safe
+      |> option.is_none
     }
+    _ -> False
   }
 }
 
-fn chunk(
-  l: List(Int),
-  chunks: List(ReportChunk),
-  is_increasing,
-) -> #(List(Int), List(ReportChunk)) {
+fn chunk(l: List(Int), chunks: List(Chunk)) -> #(List(Int), List(Chunk)) {
   case l {
-    [a, b, ..rest] ->
-      chunk(
-        [b, ..rest],
-        [Chunk(#(a, b), is_increasing), ..chunks],
-        is_increasing,
-      )
+    [a, b, ..rest] -> chunk([b, ..rest], [Chunk(#(a, b)), ..chunks])
     _ -> #([], chunks)
   }
 }
 
-pub type ReportChunk {
-  Chunk(val: #(Int, Int), is_increasing: Bool)
+type Chunk {
+  Chunk(val: #(Int, Int))
 }
 
-fn is_chunk_safe(chunk: ReportChunk) -> Bool {
-  let Chunk(chunk, is_increasing) = chunk
+fn is_chunk_safe(chunk: Chunk, is_increasing) -> Bool {
+  let Chunk(chunk) = chunk
 
   let is_safe = fn(a, b) -> Bool {
     bool.exclusive_nor(a < b, is_increasing)

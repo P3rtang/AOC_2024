@@ -1,3 +1,4 @@
+import error
 import gleam/dict
 import gleam/int
 import gleam/list
@@ -25,6 +26,7 @@ pub fn get_lists(content) {
   use list <- result.try({
     use line <- list.try_map(string.split(content, on: "\n"))
     parse_line(line)
+    |> result.replace_error(error.Parsing)
   })
 
   let a_list =
@@ -39,9 +41,10 @@ pub fn get_lists(content) {
 }
 
 pub fn solution_1(input) {
-  use content <- result.try(
-    result.map_error(simplifile.read(from: input), fn(_) { Nil }),
-  )
+  use content <- result.try(result.replace_error(
+    simplifile.read(from: input),
+    error.FileError,
+  ))
 
   use #(a_list, b_list) <- result.map(get_lists(content))
 
@@ -51,9 +54,10 @@ pub fn solution_1(input) {
 
 pub fn solution_2(input) {
   use l <- result.map({
-    use content <- result.try(
-      result.map_error(simplifile.read(from: input), fn(_) { Nil }),
-    )
+    use content <- result.try(result.replace_error(
+      simplifile.read(from: input),
+      error.FileError,
+    ))
 
     use #(a_list, b_list) <- result.try(get_lists(content))
 

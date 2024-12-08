@@ -32,7 +32,7 @@ pub fn solution1(path) -> Result(Int, AocError) {
     use report <- list.map(reports)
     report
     |> fn(r) { r }
-    |> is_report_safe
+    |> is_report_safe(False)
   })
 
   use acc, safe <- list.fold(safe_levels, 0)
@@ -47,8 +47,7 @@ pub fn solution2(path) {
     use reports <- result.map(path |> parse_file)
     use report <- list.map(reports)
     report
-    |> fn(r) { r }
-    |> is_report_safe
+    |> is_report_safe(True)
   })
 
   use acc, safe <- list.fold(safe_levels, 0)
@@ -60,8 +59,8 @@ pub fn solution2(path) {
 
 pub fn solutions() -> Result(#(Int, Int), AocError) {
   let path = "./input/day02/1.txt"
-  // use sol1 <- result.try(path |> solution1)
+  use sol1 <- result.try(path |> solution1)
   use sol2 <- result.map(path |> solution2)
 
-  #(0, sol2)
+  #(sol1, sol2)
 }
