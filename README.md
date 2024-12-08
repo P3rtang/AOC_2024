@@ -1,24 +1,19 @@
-# day_1
+# AOC 2024
 
-[![Package Version](https://img.shields.io/hexpm/v/day_1)](https://hex.pm/packages/day_1)
-[![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/day_1/)
+## Description
 
-```sh
-gleam add day_1@1
-```
-```gleam
-import day_1
+Solution for AOC 2024 written in gleam
+Progress 3/25
 
-pub fn main() {
-  // TODO: An example of the project in use
-}
-```
+## Solution duration
+|day|duration|
+|---|--------|
+|1  |    25ms|
+|2  |    48ms|
+|3  |     5ms|
 
-Further documentation can be found at <https://hexdocs.pm/day_1>.
-
-## Development
+## Run project
 
 ```sh
-gleam run   # Run the project
-gleam test  # Run the tests
+make
 ```
