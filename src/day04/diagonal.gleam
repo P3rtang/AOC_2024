@@ -1,4 +1,4 @@
-import day02/list as l
+import list as l
 import gleam/dict.{type Dict}
 import gleam/list
 import gleam/option.{type Option, None, Some}

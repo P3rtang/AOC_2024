@@ -1,4 +1,4 @@
-import day02/list
+import list
 import gleeunit
 import gleeunit/should
 

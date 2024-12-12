@@ -2,6 +2,16 @@ import gleam/list
 import gleam/option
 import gleam/result
 
+pub const length = list.length
+
+pub const map = list.map
+
+pub const try_map = list.try_map
+
+pub const index_map = list.index_map
+
+pub const find = list.find
+
 pub fn at(l: List(a), index) -> option.Option(a) {
   case l {
     [item, ..] if index == 0 -> option.Some(item)
