@@ -1,11 +1,12 @@
 import gleam/list
+import gleam/option
 import gleam/result
 
-pub fn at(l: List(a), index) -> Result(a, Nil) {
+pub fn at(l: List(a), index) -> option.Option(a) {
   case l {
-    [item, ..] if index == 0 -> Ok(item)
+    [item, ..] if index == 0 -> option.Some(item)
     [_, ..rest] -> at(rest, index - 1)
-    [] -> Error(Nil)
+    [] -> option.None
   }
 }
 

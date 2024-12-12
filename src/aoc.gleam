@@ -1,6 +1,7 @@
 import day01/solution as day01
 import day02/solution as day02
 import day03/solution as day03
+import day04/solution as day04
 import error
 import gleam/dict
 import gleam/int
@@ -114,4 +115,5 @@ pub fn main() {
   print_solution(1, day01.solutions)
   print_solution(2, day02.solutions)
   print_solution(3, day03.solutions)
+  print_solution(4, day04.solutions)
 }
